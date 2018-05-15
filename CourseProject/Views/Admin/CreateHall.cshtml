@@ -1,0 +1,68 @@
+﻿@model CourseProject.Models.HallViewModel
+@using (Html.BeginForm("CreateHall", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+{
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Добавление зала</h2>
+        </div>
+        <div class="modal-body">
+            @Html.ValidationSummary(true)
+            <dl class="dl-horizontal">
+                <dt><label>Имя</label></dt>
+                <dd>
+                    @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Name, "")
+                </dd>
+                <dt><label>Цена</label></dt>
+                <dd>
+                    @Html.EditorFor(m => m.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Price, "")
+                </dd>
+                <dt><label>Количество мест</label></dt>
+                <dd>
+                    @Html.EditorFor(m => m.CountPlace, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.CountPlace, "")
+                </dd>
+                <dt>Отель</dt>
+                <dd>
+                    @Html.DropDownListFor(m => m.HotelId, new SelectList(ViewBag.Hotel, "Id", "Name"), new { @class = "form-control" })
+                </dd>
+                <dt><label>Статус</label></dt>
+                <dd>
+                    @Html.EditorFor(m=>m.Status, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Status, "")
+                </dd>
+                <dt><label>Описание</label></dt>
+                <dd>
+                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @maxlength = "200" })
+                    @Html.ValidationMessageFor(m => m.Description, "")
+                </dd>
+                <dt><label>Картинка</label> </dt>
+                <dd>
+                    <input type="file" name="Image" accept=".jpg,.jpeg,.gif,.png,.bmp" multiple="">
+                    <output id="list"></output>
+                </dd>
+            </dl>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-success" value="Сохранть" />
+            <a href="#" class="btn" data-dismiss="modal">Закрыть</a>
+        </div>
+    </div>
+}
+@section scripts{
+    <script>
+        function handleFileSelect(evt) {
+            var files = evt.target.files;
+            var output = [];
+            for (var i = 0, f; f = files[i]; i++) {
+                output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                    f.size, ' bytes, last modified: ',
+                    f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                    '</li>');
+            }
+            document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+        }
+        document.getElementById('files').addEventListener('change', handleFileSelect, false);
+    </script>
+}

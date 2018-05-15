@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CourseProject.Models.BanquetingHall>
+<h2>Список залов</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Цена</th>
+            <th>Количество мест</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var hall in Model)
+            {
+            <tr>
+
+                <td>@hall.Name</td>
+                <td>@hall.Price</td>
+                <td>@hall.CountPlace</td>
+                <td>@hall.Status</td>
+                @*<td>
+                    @using (Html.BeginForm("DeleteHotelHall", "Admin", FormMethod.Post))
+                    {
+                        <input type="hidden" name="Id" value="@hall.Id" />
+                        <input type="submit" value="Удалть" class="btn btn-danger" style="width:75px" />
+                    }
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+

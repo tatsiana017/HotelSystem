@@ -1,0 +1,27 @@
+﻿@foreach (var hotel in ViewBag.Hotels)
+{
+    <div class="col-1-3">
+        <div class="wrap-col item">
+            <div class="zoom-container">
+                @Html.Raw("<img class='card_img' src=\"data:image/jpeg;base64," + Convert.ToBase64String(hotel.ImageData) + "\" width='100%' style='top: 200px;' />")
+            </div>
+            <div class="item-content">
+                <span><a class="card-title" href="/Home/GetInfo/@hotel.Id">@hotel.Name</a></span>
+                <p>
+                    <span class="glyphicon glyphicon-file"></span>
+                    @hotel.City,
+                    @hotel.Adress<br />
+                    @hotel.PhoneNumber<br />
+                    @hotel.WebSite<br />
+                </p>
+
+                @using (Html.BeginForm("BookingRoom", "Home", FormMethod.Post))
+                {
+                    <input type="hidden" name="Id" value="@hotel.Id" />
+
+                                    <input type="submit" class="button_style" value="Забронировать комнату" />
+                }
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <div class="">
+                @if (User.IsInRole("Administrator"))
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.ActionLink("Задания", "Task", "Admin")</li>
+                        <li>@Html.ActionLink("Клиентская база", "Clients", "Admin")</li>
+                        <li>@Html.ActionLink("Панель администратора", "Index", "Admin")</li>
+                        <li>@Html.ActionLink("Шахматка", "Sheduler", "Admin")</li>
+                    </ul>
+                }
+            </div>
+        </li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
+    </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

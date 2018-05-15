@@ -1,0 +1,119 @@
+﻿@model CourseProject.Models.BookingViewModel
+@{
+    ViewBag.Title = "Booking";
+}
+
+<h2>Booking</h2>
+<div class="list_posts">
+    @foreach (CourseProject.Models.Rooms item in ViewBag.Rooms)
+    {
+        <article class="list_post">
+            <div class="list_image_container">
+                <output lang="" data-images="" class="list_image">
+                    @Html.Raw("<img class='img' src=\"data:image/jpeg;base64," + Convert.ToBase64String(item.ImageData) + "\" />")
+                </output>
+            </div>
+            <div class="list_info_container">
+                <div style="float:right">
+                    @using (Html.BeginForm("Request", "Manage", FormMethod.Post))
+                    {
+                        <input type="hidden" name="Id" value="@item.Id" />
+                        <input type="submit" value="Reguest" class="btn btn-danger" style="width:75px" />
+                    }
+                </div>
+                <output class="list_title">@item.Name</output>
+                <output class="list_data_description">Description: @item.Description</output> <br />
+                <time class="list_data_other">Time create: @item.DateCreatePost</time> <br />
+
+                <output class="list_data_other">Address: @item.Address</output>
+            </div>
+        </article>
+    }
+</div>
+
+
+
+
+
+@*@using (Html.BeginForm("Booking", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{*@
+@*@Html.ValidationSummary("", new { @class = "text-danger" })
+@{
+    DateTime DateFrom = new DateTime();
+    DateTime DateTo = new DateTime();
+}*@
+
+@* Может через JavaScript? Написать функцию, которая будет получать значение. Повесить на инпуты id и по id получать значения *@
+@*<form>
+    <div class="form-group">
+        <label for="inputDate" >Введите дату:</label>
+        <input type="date" id="dateFromID" value="@DateFrom" class="form-control">
+    </div>
+</form>
+<form>
+    <div class="form-group">
+        <label for="inputDate">Введите дату:</label>
+        <input type="date" id="dateToID" value="@DateTo"  class="form-control">
+    </div>
+</form>*@
+@*<div class="form-group">
+    <label for="inputDate">Введите дату:</label>
+    <input type="date" id="dateFromID" class="form-control">
+</div>*@
+        @*<div class="editor-field">
+            @Html.EditorFor(model => DateFrom)
+            @Html.ValidationMessageFor(model => model.DateFrom)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateTo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => DateTo)
+            @Html.ValidationMessageFor(model => model.DateTo)
+        </div>*@
+@*<div class="form-group">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Check</th>
+                    <th>Number</th>
+                    <th>Status</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var room in ViewBag.Rooms)
+                {
+                    <tr>
+                        <td>*@
+                            @* Тестовая кнопка. Написал функцию, получающую значение из инпута с датой. Перепиште ,чтобы возвращала строку или дату.
+                                Сейчас функция выводит алерт с датой*@
+                          @*  <input type="button" id="testButton" />*@
+                            @*@Ajax.ActionLink("Забронировать", "Booking", "Manage", new { id = room.Id, dateTo = DateTo.ToString(), datefrom = DateFrom.ToString() }, new AjaxOptions { HttpMethod = "POST" })*@
+                           @* @Html.ActionLink("Забронировать", "Booking", "Manage", new { id = room.Id, dateTo =  DateTo.ToString(), datefrom = DateFrom.ToString()} )*@
+                        @*</td>
+                        <td>@room.Number</td>
+                        <td>@room.Status</td>
+                        <td>@room.Price</td>
+                        <td>@room.Category.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>*@
+    
+   @* @Html.DropDownListFor(m => m.RoomId, new SelectList(ViewBag.Rooms, "Id", "Number"), new { @class = "form-control" })*@
+@*</div>*@
+
+@* 
+    Думал получить значение в js.Получилось
+    Обозвать как-нибудь функцию, чтобы возвращала стринг или дату в нормальном формате, и вызвать функцию в ajax.actionlink,
+    там где даты передаются.
+    *@
+@*<script type="text/javascript">
+    document.getElementById('testButton').onclick = function () {
+        var data = document.getElementById('dateFromID');
+        alert(data.value);
+    }
+</script>*@
+

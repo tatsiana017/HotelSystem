@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CourseProject.Models.Rooms>
+
+@*@model PagedList.IPagedList<CourseProject.Models.Rooms>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />*@
+
+<h2>Список комнат</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Номер</th>
+            @*<th>Статус</th>*@
+            <th>Цена</th>
+            <th>Категория</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (CourseProject.Models.Rooms room in Model)
+            {
+
+            <tr>
+                <td>@room.Number</td>
+                @*<td>@room.Status</td>*@
+                <td>@room.Price</td>
+                <td>@room.Category.Name</td>
+                <td>
+                    @using (Html.BeginForm("DeleteHotelRoom", "Admin", FormMethod.Post))
+                    {
+                        <input type="hidden" name="Id" value="@room.Id" />
+                        <input type="submit" value="Удалить" class="btn button_style" style="width:75px" />
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@*Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))*@

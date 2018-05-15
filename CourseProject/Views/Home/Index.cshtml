@@ -1,0 +1,164 @@
+﻿@model PagedList.IPagedList<CourseProject.Models.Rooms>
+@*@model PagedList.IPagedList<CourseProject.Models.RoomListViewModel>*@
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+@ViewBag.Message
+
+<header>
+
+    <div class="main-header">
+        <div class="zerogrid">
+            <div class="row">
+                <div class="hero-heading">
+                    <sup>system management</sup>
+                    <span>hotels</span>
+                    <div class="tl"></div>
+                    <div class="tr"></div>
+                    <div class="br"></div>
+                    <div class="bl"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</header>
+
+
+
+<section class="content-box boxstyle-1 box-4">
+    <div class="zerogrid" style="padding-top: 25px">
+
+
+        @using (Html.BeginForm("SearchRoom", "Home", FormMethod.Post))
+        {
+            <input type = "text" name = "name" placeholder = "Введите отель" style = "height:23px" >
+            @Html.DropDownList("Category", "Категория")
+            @Html.DropDownList("CountStar", new SelectList(new int[] { 0, 2, 3, 4, 5 }), "Кол-во звезд")
+            //@Html.DropDownList("Price", new SelectList(new string[] { "0-50", "50-100", "100-150", "150-200", "200 +" }), "Цена, $ за ночь")
+            //@Html.DropDownList("Note", new SelectList(new int[] { 6, 7, 8, 9 }), "Оценка")
+
+            <button type = "submit" style = "float:right; margin-right:60px; height:23px; background:#337ab7; color:white; border:none"> Найти </button >
+        }
+        @*@using (Ajax.BeginForm("SearchRoom", "Home", null, new AjaxOptions {
+                HttpMethod = "POST",
+                UpdateTargetId = "results"
+        } ))
+        {
+            <input type="text" name="name" placeholder="Введите отель" style="height:23px">
+            @Html.DropDownList("Category", "Категория")
+            @Html.DropDownList("CountStar", new SelectList(new int[] { 0, 2, 3, 4, 5 }), "Кол-во звезд")
+            //@Html.DropDownList("Price", new SelectList(new string[] { "0-50", "50-100", "100-150", "150-200", "200 +" }), "Цена, $ за ночь")
+            //@Html.DropDownList("Note", new SelectList(new int[] { 6, 7, 8, 9 }), "Оценка")
+
+            <button type="submit" style="float:right; margin-right:60px; height:23px; background:#337ab7; color:white; border:none"> Найти </button>
+        }*@
+
+
+        @*<form method="get" action="">*@
+            @*<input type="text" name="name" placeholder="Введите отель" style="height:23px">
+            @Html.DropDownList("Category", "Категория")
+            @Html.DropDownList("CountStar", new SelectList(new int[] { 0, 2, 3, 4, 5 }), "Кол-во звезд")
+            @Html.DropDownList("Price", new SelectList(new string[] { "0-50", "50-100", "100-150", "150-200", "200 +" }), "Цена, $ за ночь")
+            @Html.DropDownList("Note", new SelectList(new int[] { 6, 7, 8, 9 }), "Оценка")
+
+            <button type="submit" style="float:right; margin-right:60px; height:23px; background:#337ab7; color:white; border:none">Найти</button>*@
+        @*</form>*@
+
+        <div class="row wrap-box">
+             
+            <div class="topnav_search">
+
+                
+                <div class="dropdown btn-group">
+                    
+                    
+                    @*<button class="btn btn-primary form_controlinputareata dropdown-toggle " type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Категория
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li>@Ajax.ActionLink("Все города", "Sortable", "Home", new { id = "allId" }, new AjaxOptions { UpdateTargetId = "listProducts" })</li>
+                        @foreach (var city in ViewBag.Sortable)
+                        {
+                            <li>@Ajax.ActionLink((string)city, "Sortable", "Home", new { id = city }, new AjaxOptions { UpdateTargetId = "listProducts" })</li>
+                        }
+                    </ul>*@
+                </div>
+
+            </div>
+
+            @*<div id="results">*@
+                <div class="row">
+                    <div id="results">
+                        @foreach (CourseProject.Models.Rooms room in Model)
+                        {
+                            <div class="col-1-3">
+                                <div class="wrap-col item">
+                                    <div class="zoom-container">
+                                        @Html.Raw("<img class='card_img' src=\"data:image/jpeg;base64," + Convert.ToBase64String(room.ImageData) + "\" width='100%' style='top: 200px;' />")
+                                    </div>
+                                    <div class="item-content">
+                                        <span>Отель: @room.Hotel.Name</span><br />
+                                        <span>Номер комнаты: @room.Number</span>
+                                        <p>
+                                            Цена: @room.Price,
+                                            Категория: @room.Category.Name<br />
+                                            Описание: @room.Description<br />
+                                            @*Статус: @room.Status<br />*@
+                                        </p>
+                                        <p> @Html.ActionLink("Забронировать", "BookingRoomModal", "Home", new { id = room.Id }, new { @class = "viewDialog button_style" })</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                    </div>
+                    </div>
+                @*</div>*@
+            
+        </div>
+    </div>
+</section>
+
+
+
+@*<div class="jumbotron">
+        <h1 style="text-align:center; color:#337ab7">Пожалуйста, отвезите меня в Hilton!</h1>
+
+        <p class="lead">
+            <h3 class="card-title"><b style="color: #337ab7">Hilton</b> ‒ одно из самых узнаваемых имен в индустрии гостеприимства. Вот уже около столетия путешественники со всего мира говорят:
+            "Пожалуйста, отвезите меня в Hilton!". Благодаря инновационному подходу и высокой культуре предоставляемых услуг, Hilton продолжает быть синонимом слова "отель" во всем мире.
+            Наши гостиницы расположены  более чем в 570 дестинациях, на 6 континентах.
+            Мы обеспечиваем наших гостей современным высококачественным обслуживанием по всему миру. </h3><br />
+
+        </p>
+    </div>*@
+
+ Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $(".viewDialog").click(function (e) {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+            });
+        })
+    </script>
+    }

@@ -1,0 +1,174 @@
+﻿@model CourseProject.Models.HotelViewModel
+@using (Html.BeginForm("CreateHotel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form", @id="createHotelForm" }))
+{
+
+    <div class="modal-content">
+        <div class="modal-header">
+            @Html.AntiForgeryToken()
+            <h2>Добавление отеля</h2>
+        </div>
+        <div class="modal-body">
+            @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
+            <dl class="dl-horizontal">
+                <dt><label>Имя</label> </dt>
+                <dd>
+                    @Html.EditorFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                    @Html.ValidationMessageFor(m => m.Name, "")
+                </dd>
+                <dt><label>Город</label></dt>
+                <dd>
+                    @Html.EditorFor(m => m.City, new { @class = "col-md-2 control-label" })
+                    @Html.ValidationMessageFor(m => m.City, "")
+                </dd>
+                <dt><label>Адрес</label></dt>
+                <dd>
+                   @Html.EditorFor(m => m.Address, new { @class = "col-md-2 control-label" })
+                    @Html.ValidationMessageFor(m => m.Address, "")
+                </dd>
+                <dt><label>Номер телефона</label></dt>
+                <dd>
+                    @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @type = "number" }, @class = "col-md-2 control-label"  })
+                    @Html.ValidationMessageFor(m => m.PhoneNumber, "")
+                </dd>
+                <dt><label>Кол-во звезд</label></dt>
+                <dd>
+                   @Html.EditorFor(m => m.CountStar, new {@class = "col-md-2 control-label" })
+                    @Html.ValidationMessageFor(m => m.CountStar, "")
+                </dd>
+                <dt><label>Website</label></dt>
+                <dd>
+                    @Html.EditorFor(m => m.WebSite, new { @class = "col-md-2 control-label" })
+                    @Html.ValidationMessageFor(m => m.WebSite, "")
+                </dd>
+                <dt><label>Описание</label></dt>
+                <dd>
+                    @*@Html.EditorFor(m => m.Description, new { @class = "col-md-2 control-label" })*@
+                    @Html.TextAreaFor(m => m.Description, new { @cols = "22", @rows = "3" })
+                    @Html.ValidationMessageFor(m => m.Description, "")
+                </dd>
+                <dt><label>Картинка</label> </dt>
+                <dd>
+                    <input type="file" name="Image" accept=".jpg,.jpeg,.gif,.png,.bmp" multiple="">
+                    <output id="list"></output>
+                </dd>
+                
+            </dl>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-success" id="submitHotelBtn" value="Сохранить" />
+            <a href="#" class="btn" data-dismiss="modal">Закрыть</a>
+        </div>
+    </div>
+}
+@section scripts{
+    <script>
+        function handleFileSelect(evt) {
+            var files = evt.target.files;
+            var output = [];
+            for (var i = 0, f; f = files[i]; i++) {
+                output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                    f.size, ' bytes, last modified: ',
+                    f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                    '</li>');
+            }
+            document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+        }
+        document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
+    </script>
+}
+
+
+@*@using (Html.BeginForm("CreateHotel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <h4>Новая модель</h4>
+
+        @Html.ValidationSummary(true)
+        <div>
+            @Html.LabelFor(model => model.Name)
+            <div>
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name, "")
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.City)
+            <div>
+                @Html.EditorFor(m => m.City, new { @class = "col-md-2 control-label" })
+                @Html.ValidationMessageFor(m => m.City, "")            
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Address)
+            <div>
+                @Html.EditorFor(model => model.Address)
+                @Html.ValidationMessageFor(m => m.Address, "")
+            </div>
+        </div>
+        
+        <div>
+            @Html.LabelFor(model => model.PhoneNumber)
+            <div>
+                @Html.EditorFor(model => model.PhoneNumber)
+            @Html.ValidationMessageFor(m => m.PhoneNumber, "")
+            </div>
+        </div>
+
+
+        <div>
+            @Html.LabelFor(model => model.CountStar)
+            <div>
+                @Html.EditorFor(model => model.CountStar)
+                @Html.ValidationMessageFor(m => m.CountStar, "")
+            </div>
+        </div>
+
+
+        <div>
+            @Html.LabelFor(model => model.WebSite)
+            <div>
+                @Html.EditorFor(model => model.WebSite)
+                @Html.ValidationMessageFor(m => m.WebSite, "")
+            </div>
+        </div>
+
+
+        <div>
+            @Html.LabelFor(model => model.Description)
+            <div>
+                @Html.EditorFor(model => model.Description)
+                @Html.ValidationMessageFor(m => m.Description, "")
+            </div>
+        </div>
+
+
+        <div>
+            <label>Картинка</label>
+            <div>
+                <input type="file" name="Image" accept=".jpg,.jpeg,.gif,.png,.bmp" multiple="">
+                <output id="list"></output>
+            </div>
+        </div>
+
+    </div>
+}
+
+<script>
+    function handleFileSelect(evt) {
+        var files = evt.target.files;
+        var output = [];
+        for (var i = 0, f; f = files[i]; i++) {
+            output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                f.size, ' bytes, last modified: ',
+                f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                '</li>');
+        }
+        document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+    }
+    document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>*@

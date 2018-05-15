@@ -1,0 +1,65 @@
+﻿@model CourseProject.Models.BookingViewModel
+@{
+    ViewBag.Title = "Забронировать банкетный зал";
+}
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<h2>Забронировать банкетный зал</h2>
+<div class=" content">
+    <div class="container">
+        <div class="podloshka">
+            <div class="row">
+                <div class="post">
+                    <div class="all_trip_cards">
+                        @foreach (CourseProject.Models.BanquetingHall bhall in ViewBag.BanquetingHall)
+                        {
+                            if (bhall.Status != "Забронирован")
+                            {
+                                <div class="trip_card col-md-4">
+                                    <div class="crop">
+                                        @Html.Raw("<img class='card_img' src=\"data:image/jpeg;base64," + Convert.ToBase64String(bhall.ImageData) + "\" width='100%' style='top: 200px;' />")
+                                    </div>
+                                    <div class="card-block">
+                                        <h2 class="card-title">
+                                            Банкетный зал: @bhall.Name
+                                        </h2>
+                                        <div class="row">
+                                            <div class="col-md-12 params">
+                                                Цена: @bhall.Price,
+                                                Количество мест: @bhall.CountPlace<br />
+                                                Описание: @bhall.Description<br />
+                                                Статус: @bhall.Status<br />
+                                            </div>
+                                            <div class="col-md-12    paramsc">
+                                                <p> @Html.ActionLink("Забронировать", "BookingHallModal", "Home", new { id = bhall.Id }, new { @class = "viewDialog btn btn-defaults form_controlinputareata" })</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <p> @Html.ActionLink("Вернутся к каталогу", "SearchHotel", "Home", new { }, new { @class = "btn btn-primary form_controlinputarea" })</p>
+
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $(".viewDialog").click(function (e) {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+            });
+        })
+    </script>
+}

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<CourseProject.Models.Comments>
+
+<h2>Сomments</h2>
+@*<p> @Html.ActionLink("Оставить отзыв", "AddCommentsModal", "Home", new { id = @Model.Id }, new { @class = "viewDialog button_style" })</p>*@
+
+<div class="svc_comment" >
+    <div class="svc_avatar">
+    <img src="https://vk.com/images/camera_50.png">
+    
+        </div>
+    @foreach (CourseProject.Models.Comments comm in Model)
+    {
+        @*<div class="svc_info">
+            <div class="svc_nick">
+                <span class="svc_date">@comm.Note</span>
+                <a href="/profile/1335605" class="svico-user" target="_blank"></a>
+                <a href="/profile/1335605"  data-nick="true">@comm.User.Name  @comm.User.Surname</a>
+                <span class="svc_uadd"></span>
+            </div>
+            <div class="svc_msg ">
+                @comm.Text
+            </div>
+        </div>*@
+        <div class="comments">
+            <div class="comment dialog">
+                <p>@comm.Text</p>
+            </div>
+        </div>
+
+    }
+    
+</div>
+
+<div class="discussion-timeline js-quote-selection-container ">
+    <div class="js-discussion js-socket-channel" data-channel="marked-as-read:issue:22894265">
+        <div class="timeline-comment-wrapper js-comment-container mt-0">
+            <div class="avatar-parent-child timeline-comment-avatar">
+                <a class="d-inline-block">
+                    <img src="https://vk.com/images/camera_50.png">
+                </a>
+            </div>
+            @foreach (CourseProject.Models.Comments comm in Model)
+            {
+                <div class="js-minimizable-comment-group">
+                    <div class="unminimized-comment comment previewable-edit js-comment js-task-list-container timeline-comment  ">
+                        <div class="timeline-comment-actions">
+
+                        </div>
+                        <span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s">
+                            @comm.Note
+                        </span>
+                        <h3 class="timeline-comment-header-text f5 text-normal">
+                            <strong class="css-truncate">
+                                <a class="author text-inherit css-truncate-target" data-octo-click="hovercard-link-click">
+                                    @comm.User.Surname
+                                </a>
+                            </strong>
+
+                            commented
+                            <a href="" class="timestamp">
+                                <relative-time>
+                                    @comm.DateComm
+                                </relative-time>
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="edit-comment-hide">
+                        <task-lists daisabled sortable>
+                            <table class="d-block">
+                                <tbody class="d-block">
+                                    <tr class="d-block">
+                                        <td class="d-block comment-body markdown-body  js-comment-body">
+                                            <p>
+                                                @comm.Text
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </task-lists>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+

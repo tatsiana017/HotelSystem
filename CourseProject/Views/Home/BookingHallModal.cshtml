@@ -1,0 +1,34 @@
+﻿@model CourseProject.Models.BookingViewModel
+@using (Html.BeginForm("BookingHall", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+{
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Время бронирования</h2>
+        </div>
+        <div class="modal-body">
+            <dl class="dl-horizontal">
+                <dt hidden>@Html.TextBoxFor(m => m.RoomId)</dt>
+                <dt>Время начала: </dt>
+                <dd>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.DateFrom)
+                        @Html.ValidationMessageFor(model => model.DateFrom)
+                    </div>
+                </dd>
+                <dt>Время завершения: </dt>
+                <dd>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.DateTo)
+                        @Html.ValidationMessageFor(model => model.DateTo)
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-success" value="Забронировать">
+            <a href="#" class="btn" data-dismiss="modal">Закрыть</a>
+        </div>
+    </div>
+}
+
+

@@ -1,0 +1,56 @@
+﻿@model CourseProject.Models.ClientViewModel
+@using CourseProject.Helpers
+
+@{
+    ViewBag.Title = "Clients";
+}
+
+<h2>Клиентская база</h2>
+<table class="table">
+    <thead>
+        <tr><th>Surname</th><th>Name</th><th>Phone/Email</th><th>City</th><th>Adress</th></tr>
+    </thead>
+    <tbody>
+        @*@foreach (var client in Model.Clients)
+            {
+            <tr>
+                <td>@client.Surname</td>
+                <td>@client.Name</td>
+                <td>@client.PhoneNum</td>
+                <td>@client.City</td>
+                <td>@client.Adress</td>
+                <td>
+                    @using (Html.BeginForm("DeleteClient", "Admin", FormMethod.Post))
+                    {
+                        <input type="hidden" name="Id" value="@client.Id" />
+                        <input type="submit" value="Удалить" class="btn button_style" style="width:75px" />
+                    }
+                </td>
+
+            </tr>
+        }*@
+        @foreach(var user in Model.Users)
+        {
+            <tr>
+                <td>@user.Surname</td>      
+                <td>@user.Name</td>
+                <td>@user.Email</td>
+                <td>@user.City</td>
+                <td>@user.Adress</td>
+                <td>
+                    @using (Html.BeginForm("DeleteUser", "Admin", FormMethod.Post))
+                    {
+                        <input type="hidden" name="Id" value="@user.Id" />
+                        <input type="submit" value="Удалить" class="btn button_style" style="width:75px" />
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+</br>
+<div class="btn-group">
+    @Html.PageLinks(Model.PageInfo, x => Url.Action("Clients", new { page = x }))
+</div>
+

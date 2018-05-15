@@ -1,0 +1,46 @@
+﻿@model CourseProject.Models.AddCommentsViewModel
+   
+@using (Html.BeginForm("AddComments", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form", @id = "createComments" }))
+{
+    <div class="modal-content">
+        <div class="modal-header">
+            @Html.AntiForgeryToken()
+            <h2>Добавить отзыв</h2>
+        </div>
+        <div class="modal-body">
+            <dl class="dl-horizontal">
+                <dt hidden>@Html.TextBoxFor(m => m.HotelId)</dt>
+ 
+                <dt>Отзыв: </dt>
+                <dd>
+                    <div class="editor-field">
+                        @Html.TextAreaFor(model => model.Text, new { type = "text", cols ="40", rows="3"})
+                        @Html.ValidationMessageFor(m => m.Text, "")   
+                    </div>
+                </dd>
+                <dt>Оценка: </dt>
+                <dd>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(model => model.Note, new { type = "number", width ="30px" }) /10
+                        @Html.ValidationMessageFor(m => m.Note, "")   
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" id="submitComment" value="Отправить">
+            <a href="#" class="btn" data-dismiss="modal">Закрыть</a>
+        </div>
+    </div>
+}
+
+
+@*@using (Html.BeginForm("AddCommentAsync", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="post-entry-comments-body">
+        <h2>Add Comment</h2>
+        @Html.EditorFor(ct => Model.Text, new { htmlAttributes = new { @class = "create-comment-form-comment-text", autocomplete = "off" } })
+        <input type="submit" value="Add" class="create-comment-form-btn" />
+    </div>
+}*@

@@ -1,0 +1,72 @@
+﻿@model CourseProject.Models.RoomViewModel
+@using (Html.BeginForm("CreateRoom", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form", @id = "createRoomForm" }))
+{
+    <div class="modal-content">
+        <div class="modal-header">
+            @Html.AntiForgeryToken()
+            <h2>Добавление комнаты</h2>
+        </div>
+        <div class="modal-body">
+            @*@Html.ValidationSummary(true)*@
+            <dl class="dl-horizontal">
+                <dt><label>Номер комнаты</label></dt>
+                <dd>
+                    @Html.EditorFor(m => m.Number, new { htmlAttributes = new { @type = "number" }, @class = "col-md-2 control-label" })
+                    @Html.ValidationMessageFor(m => m.Number, "")
+                </dd>
+                <dt><label>Цена</label></dt>
+                <dd>
+                    @Html.EditorFor(m => m.Price, new { htmlAttributes = new { @type = "number" }, @class = "col-md-2 control-label" })
+                    @Html.ValidationMessageFor(m => m.Price, "")
+                </dd>
+                <dt><label>Статус</label></dt>
+                <dd>
+                    @Html.EditorFor(m => m.Status, new { @class = "col-md-2 control-label" })
+                    @Html.ValidationMessageFor(m => m.Status, "")
+                </dd>
+                <dt><label>Описание</label></dt>
+                <dd>
+                    @Html.TextAreaFor(m => m.Descriptions, new { @cols = "22", @rows = "3" })
+                    @Html.ValidationMessageFor(m => m.Descriptions, "")
+                </dd>
+                <dt>Отель</dt>
+                <dd>
+                    @Html.DropDownListFor(m => m.HotelId, new SelectList(ViewBag.Hotel, "Id", "Name"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.HotelId, "")
+                </dd>
+                <dt>Категория</dt>
+                <dd>
+                    @Html.DropDownListFor(m => m.CategoryId, new SelectList(ViewBag.Category, "Id", "Name"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.CategoryId, "")
+
+
+                </dd>
+                <dt><label>Картинка</label> </dt>
+                <dd>
+                    <input type="file" name="ImageRoom" accept=".jpg,.jpeg,.gif,.png,.bmp" multiple="">
+                    <output id="list"></output>
+                </dd>
+            </dl>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-success" value="Сохранить" />
+            <a href="#" class="btn" data-dismiss="modal">Закрыть</a>
+        </div>
+    </div>
+}
+@section scripts{
+    <script>
+        function handleFileSelect(evt) {
+            var files = evt.target.files;
+            var output = [];
+            for (var i = 0, f; f = files[i]; i++) {
+                output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                    f.size, ' bytes, last modified: ',
+                    f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                    '</li>');
+            }
+            document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+        }
+        document.getElementById('files').addEventListener('change', handleFileSelect, false);
+    </script>
+}

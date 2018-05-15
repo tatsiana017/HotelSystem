@@ -1,0 +1,93 @@
+﻿@model CourseProject.Models.Hotels
+@{
+    ViewBag.Title = "GetInfo";
+}
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<h2>GetInfo</h2>
+
+<section class="content-box boxstyle-1 box-4">
+    <div class="zerogrid">
+        <div class="row wrap-box">
+            <div class="header">
+                <div class="wrapper">
+                    <h2 class="">@Model.Name</h2>
+                    <hr class="line" />
+                    <div class="intro">@Ajax.ActionLink("Comments", "ListComments", "Home",  new AjaxOptions { UpdateTargetId = "listRoom" })</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="main_img">
+                    <div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+                        @Html.Raw("<img class='img-responsive' src=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.ImageData) + "\" />")
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="trip_text">
+                        <div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12" style="font-size: 18px">
+
+                            <h3>
+                                @Model.Description<br />
+                                Адрес: @Model.City, @Model.Adress
+                            </h3>
+                            <span class="bolder">Телефон: </span>@Model.PhoneNumber <br />
+                            <span class="bolder">Сайт: </span>@Model.WebSite 
+                            @using (Html.BeginForm("BookingRoom", "Home", FormMethod.Post))
+
+                            {
+                                <input type="hidden" name="Id" value="@Model.Id" />
+
+                                <input type="submit" class="button_style" value="Забронировать комнату" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+        <p> @Html.ActionLink("Вернутся к каталогу", "SearchHotel", "Home", new { }, new { @class = "btn btn-primary form_controlinputarea" })</p>
+<div class="form-group">
+    
+
+      <p> @Html.ActionLink("Оставить отзыв", "AddCommentsModal", "Home", new {id=Model.Id }, new { @class = "viewDialog button_style" })</p>
+
+
+</div>
+<div id="listRoom"></div>
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $(".viewDialog").click(function (e) {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                    //$("#createComments").submit(function (e) {
+                    //    e.preventDefault();
+                    //    var $that = $(this);
+                    //    var data = new FormData($that.get(0));
+                    //    $.ajax({
+                    //        type: "POST",
+                    //        url:"/Manage/AddComments",
+                    //        processData: false,
+                    //        contentType: false,
+                    //        data: data,
+                    //        success: function (data) {                             
+                    //            $("#dialogContent").html(data);
+                    //        }
+                    //    });
+                    //});
+                });
+            });
+        })
+    </script>
+}

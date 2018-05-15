@@ -1,0 +1,136 @@
+﻿@model CourseProject.Models.ViewmodelHotel
+@using CourseProject.Helpers
+@*<link href="@Url.Content("~/Content/themes/base/all.css")" rel="stylesheet" type="text/css" />*@
+
+@{
+    ViewBag.Title = "Index";
+}
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<h2>Администрирование</h2>
+<p class="text-success">@ViewBag.StatusMessage</p>
+<p> @Html.ActionLink("Добавить отель", "CreateHotel", "Admin", new { }, new { @class = "viewDialog" })</p>
+<p> @Html.ActionLink("Добавить комнату", "CreateRoom", "Admin", new { }, new { @class = "viewDialog" })</p>
+@*<p> @Html.ActionLink("Добавить зал", "CreateHall", "Admin", new { }, new { @class = "viewDialog" })</p>*@
+<table class="table">
+    <thead>
+        <tr><th>Name</th><th>Phone Number</th><th>Website</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var hotel in Model.Hotel)
+            {
+            <tr>
+                <td>@hotel.Name</td>
+                <td>@hotel.PhoneNumber</td>
+                <td>@hotel.WebSite</td>
+                <td>@Ajax.ActionLink("Список комнат", "ListRoom", "Admin", new { id = hotel.Id }, new AjaxOptions { UpdateTargetId = "listRoom" })</td>
+                @*<td>@Ajax.ActionLink("Список залов", "ListHall", "Admin", new { id = hotel.Id }, new AjaxOptions { UpdateTargetId = "listRoom" })</td>*@
+
+                <td>
+                    @using (Html.BeginForm("DeleteHotel", "Admin", FormMethod.Post))
+                    {
+                        <input type="hidden" name="Id" value="@hotel.Id" />
+                        <input type="submit" value="Удалить" class="btn button_style" style="width:75px" />
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@*Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))*@
+<div id="listRoom"></div>
+</br>
+<div class="btn-group">
+    @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x }))
+</div>
+@section scripts{
+    @*<script src='@Url.Content("~/Scripts/jquery-3.2.1.min.js")' type="text/javascript"></script>
+        <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
+    <script type="text/javascript">
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $(".viewDialog").click(function (e) {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                    //$("#createHotelForm").submit(function (e) {
+                    //    e.preventDefault();
+                    //    var $that = $(this);
+                    //    var data = new FormData($that.get(0));
+                    //    $.ajax({
+                    //        type: "POST",
+                    //        url:"Admin/CreateHotel",
+                    //        processData: false,
+                    //        contentType: false,
+                    //        data: data,
+                    //        success: function (data) {
+                    //            $("#dialogContent").html(data);
+                    //        }
+                    //    });
+                    //});
+                    //$("#createRoomForm").submit(function (e) {
+                    //    e.preventDefault();                       
+                    //    var $that = $(this);
+                    //    var data = new FormData($that.get(0));
+                        
+                    //    $.ajax({
+                    //        type: "POST",
+                    //        url: "/Admin/CreateRoom",
+                    //        processData: false,
+                    //        contentType: false,
+                    //        data: data,
+                    //        success: function (data) {
+                               
+                    //            $("#dialogContent").html(data);
+                    //        }
+                    //    });
+                    //});
+                });
+            });
+
+        });
+
+    </script>
+}
+
+@*<script src='@Url.Content("~/Scripts/jquery-3.2.1.min.js")' type="text/javascript"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $.ajaxSetup({ cache: false });
+
+            $(".viewDialog").on("click", function (e) {
+                e.preventDefault();
+
+                $("<div id='dialogContent'></div>")
+                    .addClass("dialog")
+                    .appendTo("body")
+                    .load(this.href)
+                    .dialog({
+                        title: $(this).attr("data-dialog-title"),
+                        close: function () { $(this).remove() },
+                        modal: true,
+                        buttons: {
+                            "Сохранить": function () {
+                                $.ajax({
+                                 url: "@Url.Action("Create", "Home")",
+                                 type: "POST",
+                                 data: $('form').serialize(),
+                                 datatype: "json",
+                                 success: function (result) {
+
+                                     $("#dialogContent").html(result);
+                                    }
+                                });
+                            }
+                        }
+                    });
+            });
+        });
+    </script>*@
